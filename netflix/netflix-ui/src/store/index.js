@@ -16,9 +16,9 @@ export const getGenres = createAsyncThunk("netflix/genres", async () => {
   const {
     data: { genres },
   } = await axios.get(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=3d39d6bfe362592e6aa293f01fbcf9b9"
+    "https://api.themoviedb.org/3/genre/movie/list?api_key=fcdd3263bb65f2002c1a2218313b385f"
   );
-  return genres;
+ return genres;
 });
 
 const createArrayFromRawData = (array, moviesArray, genres) => {
@@ -59,6 +59,7 @@ export const fetchDataByGenre = createAsyncThunk(
       `https://api.themoviedb.org/3/discover/${type}?api_key=3d39d6bfe362592e6aa293f01fbcf9b9&with_genres=${genre}`,
       genres
     );
+    
   }
 );
 
@@ -73,7 +74,9 @@ export const fetchMovies = createAsyncThunk(
       genres,
       true
     );
+   
   }
+
 );
 
 export const getUsersLikedMovies = createAsyncThunk(

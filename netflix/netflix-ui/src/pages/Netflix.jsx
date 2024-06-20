@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import backgroundImage from "../assets/home.jpg";
@@ -7,11 +7,24 @@ import MovieLogo from "../assets/homeTitle.webp";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
-//import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { fetchMovies, getGenres } from "../store";
+import Slider from "../components/Slider";
 function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
+  const movies = useSelector((state) => state.netflix.movies);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getGenres());
+  }, []);
+  useEffect(() => {
+    if (genresLoaded) {
+      dispatch(fetchMovies({  type: "all" }));
+    }
+  }, [genresLoaded]);
 
   const navigate = useNavigate();
 
@@ -52,7 +65,7 @@ function Netflix() {
           </div>
         </div>
       </div>
-
+      <Slider movies={movies} />
     </Container>
   );
 }
